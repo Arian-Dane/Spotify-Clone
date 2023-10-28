@@ -29,11 +29,7 @@ function App() {
     <div className='app'>
       
       {
-        token? (
-          <h1>i am logged in</h1>
-        ):(
-          <Login />
-        )
+        token? (<h1>i am logged in</h1>):(<Login />)
       }
 
         
