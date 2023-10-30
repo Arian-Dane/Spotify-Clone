@@ -4,6 +4,7 @@ import Login from './Login'
 import { getTokenFromUrl } from './spotify';
 import SpotifyWebApi from "spotify-web-api-js"
 import Player from './Player';
+import { useDataLayerValue } from './DataLayer';
 
 //creating a new instance of the spotifywebapi
 const spotify = new SpotifyWebApi()
@@ -12,6 +13,9 @@ function App() {
 
   //usestate is how variables are handled in react
   const [token,setToken] = useState(null)
+//any data we need to grab from the datalayer we can parse into the object
+//dispatch is used to update the value of the datalayer
+  const [{},dispatch]=useDataLayerValue()
 
   //use effect runs code based on a given condition
   useEffect(()=>{
