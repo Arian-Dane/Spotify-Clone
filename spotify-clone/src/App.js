@@ -11,11 +11,10 @@ const spotify = new SpotifyWebApi()
 
 function App() {
 
-  //usestate is how variables are handled in react
-  const [token,setToken] = useState(null)
+  
 //any data we need to grab from the datalayer we can parse into the object
 //dispatch is used to update the value of the datalayer
-  const [{},dispatch]=useDataLayerValue()
+  const [{user,token},dispatch]=useDataLayerValue()
 
   //use effect runs code based on a given condition
   useEffect(()=>{
@@ -28,13 +27,20 @@ function App() {
     
     //if we have a token we set the Token state as _token
     if(_token){
-      setToken(_token)
+      dispatch({
+        type: 'SET_TOKEN',
+        token: _token
+      })
 
       //allowing the spotifywebapi to safely communicate with the react app
       spotify.setAccessToken(_token)
 
+      //dispatch shoots data we add to it into the datalayer
       spotify.getMe().then((user) =>{
-        console.log("this is your account dets", user)
+        dispatch({
+          type: "SET_USER",
+          user: user,
+        })
       })
     //you can add things to the [] so the code will rerun if the variable in it changes
     
@@ -45,15 +51,10 @@ function App() {
     <div className='app'>
       
       {
-        token? (<h1>i am logged in</h1>):(<Login />)
+        token? (<Player spotify = {spotify}/>):(<Login />)
       }
 
-        
-      
-      
-     
-      
-    </div>
+      </div>
   );
 }
 
